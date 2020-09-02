@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux';
 
 class App extends React.Component {
   render() {
@@ -8,15 +9,29 @@ class App extends React.Component {
       <div className="App">
         <div className="col">
           <div><span>A:</span><span>{this.props.a}</span></div>
-          <button>Update A</button>
+          <button onClick={this.props.updateA}>Update A</button>
         </div>
         <div className="col">
           <div><span>B:</span><span>{this.props.b}</span></div>
-          <button>Update B</button>
+          <button onClick={this.props.updateB}>Update B</button>
         </div>
       </div>
     )
   }
 }
 
-export default App;
+const mapStoreToProps = (store) => {
+  return {
+    a: store.a,
+    b: store.b
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateA: () => dispatch({type: 'UPDATE_A'}),
+    updateB: () => dispatch({type: 'UPDATE_B'})
+  }
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(App);
